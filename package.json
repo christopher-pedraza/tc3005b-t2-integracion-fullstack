@@ -1,0 +1,15 @@
+{
+    "name": "integracion-fullstack",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Christopher Pedraza",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2"
+    }
+}
