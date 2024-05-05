@@ -1,6 +1,5 @@
 const express = require("express");
 require("dotenv").config();
-const cors = require("cors");
 
 const app = express();
 
@@ -8,7 +7,23 @@ app.use(express.static("dist"));
 
 //middleware
 app.use(express.json());
-app.use(cors());
+
+const cors = require("cors");
+const allowedOrigins = [
+    "http://tarea2-integracion-fullstack.azurewebsites.net",
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+};
+
+app.use(cors(corsOptions));
 
 // Middleware de registro de solicitudes
 const requestLogger = (request, response, next) => {
