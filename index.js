@@ -48,6 +48,16 @@ const errorHandler = (error, request, response, next) => {
 app.use(errorHandler);
 
 // Rutas
+// Middleware to set CORS headers
+app.use((req, res, next) => {
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "http://tarea2-integracion-fullstack.azurewebsites.net"
+    );
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+});
 const router = require("./routes/routes");
 app.use("/api", router);
 
