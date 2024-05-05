@@ -1,0 +1,35 @@
+### Registrar un usuario
+POST http://localhost:3001/api/user/signup
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "name": "Superuser",
+  "password": "admin",
+  "rol": "root"
+}
+
+### Inicia sesion con un usuario
+POST http://localhost:3001/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### Obtiene todos los usuarios
+GET http://localhost:3001/api/user
+
+###
+POST http://localhost:3001/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2NjJmZWI2MzhlNmQzNWFmZmZiN2M0MDciLCJpYXQiOjE3MTQ1MDI2MDF9.ujlE1xePdX4DsIYl04U0GK4Hiw6BAMDw7r9t5ISEXh0
+
+{
+  "content": [
+    "producto": "Producto1",
+    "precio": 100
+  ],
+  "userId": "66313d36ec520a98a205e7d5"
+}

@@ -32,6 +32,10 @@ const errorHandler = (error, request, response, next) => {
 };
 app.use(errorHandler);
 
+// Rutas
+const router = require("./routes/routes");
+app.use("/api", router);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
