@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const productosRouter = require("express").Router();
-const Producto = require("../models/producto");
-const User = require("../models/user");
+const productoModel = require("../models/producto");
+const userModel = require("../models/user");
 
 const getTokenFrom = (request) => {
     const authorization = request.get("authorization");
@@ -12,13 +12,13 @@ const getTokenFrom = (request) => {
 };
 
 productosRouter.get("/", (request, response) => {
-    Producto.find({}).then((productList) => {
+    productoModel.find({}).then((productList) => {
         response.json(productList);
     });
 });
 
 productosRouter.get("/:id", (request, response) => {
-    Producto.findById(request.params.id)
+    productoModel.findById(request.params.id)
         .then((producto) => {
             if (producto) {
                 response.json(producto);
@@ -33,7 +33,7 @@ productosRouter.get("/:id", (request, response) => {
 });
 
 productosRouter.delete("/:id", (request, response) => {
-    Producto.findByIdAndDelete(request.params.id)
+    productoModel.findByIdAndDelete(request.params.id)
         .then((result) => {
             response.status(204).end();
         })
@@ -49,13 +49,13 @@ productosRouter.post("/", (request, response) => {
     if (!decodedToken.id) {
         return response.status(401).json({ error: "token invalid" });
     }
-    const user = User.findById(decodedToken.id);
+    const user = userModel.findById(decodedToken.id);
 
     if (body.content.producto === undefined) {
         return response.status(400).json({ error: "content missing" });
     }
 
-    const product = new Producto({
+    const product = new productoModel({
         content: {
             producto: body.content.producto,
             precio: body.content.precio || 0,
@@ -80,7 +80,7 @@ productosRouter.put("/:id", (request, response, next) => {
         },
     };
 
-    Producto.findByIdAndUpdate(request.params.id, producto, { new: true })
+    productoModel.findByIdAndUpdate(request.params.id, producto, { new: true })
         .then((updatedProduct) => {
             response.json(updatedProduct);
         })

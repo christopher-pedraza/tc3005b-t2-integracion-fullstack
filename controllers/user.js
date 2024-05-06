@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const router = require("express").Router();
-const User = require("../models/user");
+const userModel = require("../models/user");
 
 router.post("/login", async (request, response) => {
     const { username, password } = request.body;
     console.log("username: ", username);
     console.log("password", password);
 
-    const user = await User.findOne({ username });
+    const user = await userModel.findOne({ username });
     console.log("user: ", user);
     const passwordCorrect =
         user === null
@@ -48,7 +48,7 @@ router.post("/signup", async (request, response) => {
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    const user = new User({
+    const user = new userModel({
         username,
         name,
         passwordHash,
@@ -61,7 +61,7 @@ router.post("/signup", async (request, response) => {
 });
 
 router.get("/", async (request, response) => {
-    const users = await User.find({});
+    const users = await userModel.find({});
     response.json(users);
 });
 

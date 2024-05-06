@@ -36,6 +36,7 @@ const cors = require("cors");
 
 const allowedOrigins = [
     "http://tarea2-integracion-fullstack.azurewebsites.net",
+    "https://tarea2-integracion-fullstack.azurewebsites.net",
     "http://localhost:3001",
     "http://localhost:5173",
 ];
