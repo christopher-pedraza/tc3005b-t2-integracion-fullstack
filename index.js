@@ -8,23 +8,6 @@ app.use(express.static("dist"));
 //middleware
 app.use(express.json());
 
-const cors = require("cors");
-const allowedOrigins = [
-    "http://tarea2-integracion-fullstack.azurewebsites.net",
-];
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-};
-
-app.use(cors(corsOptions));
-
 // Middleware de registro de solicitudes
 const requestLogger = (request, response, next) => {
     console.log("Method:", request.method);
@@ -49,15 +32,28 @@ app.use(errorHandler);
 
 // Rutas
 // Middleware to set CORS headers
-app.use((req, res, next) => {
-    res.setHeader(
-        "Access-Control-Allow-Origin",
-        "http://tarea2-integracion-fullstack.azurewebsites.net"
-    );
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    next();
-});
+const cors = require("cors");
+
+const allowedOrigins = [
+    "http://tarea2-integracion-fullstack.azurewebsites.net",
+    "http://localhost:3001",
+    "http://localhost:5173",
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
 const router = require("./routes/routes");
 app.use("/api", router);
 
