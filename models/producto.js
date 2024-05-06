@@ -17,6 +17,7 @@ const productSchema = new mongoose.Schema({
     content: {
         producto: String,
         precio: Number,
+        imagen: String,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
