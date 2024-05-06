@@ -5,12 +5,16 @@ const User = require("../models/user");
 
 router.post("/login", async (request, response) => {
     const { username, password } = request.body;
+    console.log("username: ", username);
+    console.log("password", password);
 
     const user = await User.findOne({ username });
+    console.log("user: ", user);
     const passwordCorrect =
         user === null
             ? false
             : await bcrypt.compare(password, user.passwordHash);
+    console.log("passwordCorrect: ", passwordCorrect);
 
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
@@ -22,9 +26,14 @@ router.post("/login", async (request, response) => {
         username: user.username,
         id: user._id,
     };
+    console.log("userForToken: ", userForToken);
 
     const token = jwt.sign(userForToken, process.env.SECRET);
+    console.log("token: ", token);
 
+    console.log(
+        "Response: " + user.username + " " + user.name + " " + user.rol
+    );
     response.status(200).send({
         token,
         username: user.username,
