@@ -18,7 +18,8 @@ productosRouter.get("/", (request, response) => {
 });
 
 productosRouter.get("/:id", (request, response) => {
-    productoModel.findById(request.params.id)
+    productoModel
+        .findById(request.params.id)
         .then((producto) => {
             if (producto) {
                 response.json(producto);
@@ -33,7 +34,8 @@ productosRouter.get("/:id", (request, response) => {
 });
 
 productosRouter.delete("/:id", (request, response) => {
-    productoModel.findByIdAndDelete(request.params.id)
+    productoModel
+        .findByIdAndDelete(request.params.id)
         .then((result) => {
             response.status(204).end();
         })
@@ -77,10 +79,12 @@ productosRouter.put("/:id", (request, response, next) => {
         content: {
             producto: body.content.producto,
             precio: body.content.precio,
+            imagen: body.content.imagen,
         },
     };
 
-    productoModel.findByIdAndUpdate(request.params.id, producto, { new: true })
+    productoModel
+        .findByIdAndUpdate(request.params.id, producto, { new: true })
         .then((updatedProduct) => {
             response.json(updatedProduct);
         })

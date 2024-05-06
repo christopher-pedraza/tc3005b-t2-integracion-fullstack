@@ -60,6 +60,7 @@ Authorization: Bearer {your_token}
 {
   "content": {
     "producto": "New Product Name",
-    "precio": 150
+    "precio": 150,
+    "imagen": "https://dummyimage.com/300x200/000/292929"
   }
 }
