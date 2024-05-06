@@ -4,9 +4,9 @@ Content-Type: application/json
 
 {
   "username": "admin",
-  "name": "Superuser",
+  "name": "Admin",
   "password": "admin",
-  "rol": "root"
+  "rol": "Admin"
 }
 
 ### Inicia sesion con un usuario
@@ -18,17 +18,25 @@ Content-Type: application/json
   "password": "admin"
 }
 
-###
-POST https://tarea2-integracion-fullstack.azurewebsites.net/api/user/login
+### Obtiene todos los usuarios
+GET http://localhost:3001/api/user
+
+### Obtiene un usuario por id
+GET http://localhost:3001/api/user/6638ec08deefbc5062c38a08
+
+### Editar un usuario por id
+PUT http://localhost:3001/api/user/6638ec08deefbc5062c38a08
 Content-Type: application/json
 
 {
   "username": "admin",
-  "password": "admin"
+  "name": "Admin",
+  "password": "admin",
+  "rol": "admin"
 }
 
-### Obtiene todos los usuarios
-GET http://localhost:3001/api/user
+### Eliminar un usuario por id
+DELETE http://localhost:3001/api/user/6638ee8afbd79f2e2dda0eaf
 
 ### Get all products
 GET http://localhost:3001/api/productos

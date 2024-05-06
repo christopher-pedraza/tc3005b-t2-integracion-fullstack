@@ -5,16 +5,15 @@ const userModel = require("../models/user");
 
 router.post("/login", async (request, response) => {
     const { username, password } = request.body;
-    console.log("username: ", username);
-    console.log("password", password);
 
-    const user = await userModel.findOne({ username });
-    console.log("user: ", user);
+    const lowercaseUsername = username.toLowerCase();
+
+    const user = await userModel.findOne({ username: lowercaseUsername });
+
     const passwordCorrect =
         user === null
             ? false
             : await bcrypt.compare(password, user.passwordHash);
-    console.log("passwordCorrect: ", passwordCorrect);
 
     if (!(user && passwordCorrect)) {
         return response.status(401).json({
@@ -26,14 +25,9 @@ router.post("/login", async (request, response) => {
         username: user.username,
         id: user._id,
     };
-    console.log("userForToken: ", userForToken);
 
     const token = jwt.sign(userForToken, process.env.SECRET);
-    console.log("token: ", token);
 
-    console.log(
-        "Response: " + user.username + " " + user.name + " " + user.rol
-    );
     response.status(200).send({
         token,
         username: user.username,
@@ -45,14 +39,17 @@ router.post("/login", async (request, response) => {
 router.post("/signup", async (request, response) => {
     const { username, name, password, rol } = request.body;
 
+    const lowercaseUsername = username.toLowerCase();
+    const lowerCaseRol = rol.toLowerCase();
+
     const saltRounds = 10;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
     const user = new userModel({
-        username,
+        username: lowercaseUsername,
         name,
         passwordHash,
-        rol,
+        rol: lowerCaseRol,
     });
 
     const savedUser = await user.save();
@@ -63,6 +60,44 @@ router.post("/signup", async (request, response) => {
 router.get("/", async (request, response) => {
     const users = await userModel.find({});
     response.json(users);
+});
+
+router.get("/:id", async (request, response) => {
+    const user = await userModel.findById(request.params.id);
+    if (user) {
+        response.json(user);
+    } else {
+        response.status(404).end();
+    }
+});
+
+router.delete("/:id", async (request, response) => {
+    await userModel.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+});
+
+router.put("/:id", async (request, response) => {
+    const { username, name, password, rol } = request.body;
+
+    const lowercaseUsername = username.toLowerCase();
+    const lowerCaseRol = rol.toLowerCase();
+
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
+
+    const user = {
+        username: lowercaseUsername,
+        name,
+        passwordHash,
+        rol: lowerCaseRol,
+    };
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+        request.params.id,
+        user,
+        { new: true }
+    );
+    response.json(updatedUser);
 });
 
 module.exports = router;
