@@ -18,6 +18,15 @@ Content-Type: application/json
   "password": "admin"
 }
 
+###
+POST https://tarea2-integracion-fullstack.azurewebsites.net/api/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
 ### Obtiene todos los usuarios
 GET http://localhost:3001/api/user
 
